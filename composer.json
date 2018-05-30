@@ -1,11 +1,17 @@
 {
-    "name": "tareq1988/wordpress-settings-api-class",
+    "name": "twindigital/wordpress-settings-api-class",
     "type": "library",
     "description": "WordPress settings API Abstraction Class",
     "keywords": ["wp","wordpress", "settings-api"],
-    "homepage": "https://github.com/tareq1988/wordpress-settings-api-class",
+    "homepage": "https://github.com/TwinDigital/wordpress-settings-api-class",
     "license": "GPLv2",
     "authors": [
+        {
+            "name": "Lucien Plattel",
+            "email": "lucien@twindigital.nl",
+            "homepage": "https://twindigital.nl",
+            "role": "Developer"
+        },
         {
             "name": "Tareq Hasan",
             "email": "tareq@wedevs.com",
@@ -14,9 +20,11 @@
         }
     ],
     "require": {
-        "php": ">=5.2.4"
+        "php": ">=7.1.0"
     },
     "autoload": {
-        "classmap": ["src/"]
+        "psr-4": {
+            "TwinDigital\\": "src/"
+        }
     }
 }
