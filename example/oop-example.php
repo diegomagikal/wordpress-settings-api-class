@@ -13,7 +13,7 @@ class WeDevs_Settings_API_Test {
     function __construct() {
         $this->settings_api = new WeDevs_Settings_API;
 
-        add_action( 'admin_init', array($this, 'admin_init') );
+        add_action( 'adminInit', array($this, 'adminInit') );
         add_action( 'admin_menu', array($this, 'admin_menu') );
     }
 

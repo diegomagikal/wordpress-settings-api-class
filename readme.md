@@ -41,7 +41,7 @@ A detailed tutorial can be found [here](https://tareq.co/2012/06/wordpress-setti
  */
 function prefix_get_option( $option, $section, $default = '' ) {
 
-    $options = get_option( $section );
+    $options = getOption( $section );
 
     if ( isset( $options[$option] ) ) {
         return $options[$option];

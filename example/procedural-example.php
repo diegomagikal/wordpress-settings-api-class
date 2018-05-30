@@ -267,7 +267,7 @@ if ( !function_exists( 'wedevs_admin_init' ) ):
         $settings_api->admin_init();
     }
 endif;
-add_action( 'admin_init', 'wedevs_admin_init' );
+add_action( 'adminInit', 'wedevs_admin_init' );
 
 if ( !function_exists( 'wedevs_admin_menu' ) ):
     /**
