@@ -37,7 +37,7 @@ class SettingsAPI {
    * SettingsAPI constructor.
    */
   public function __construct() {
-    add_action('adminEnqueueScripts', [$this, 'adminEnqueueScripts']);
+    add_action('admin_enqueue_scripts', [$this, 'adminEnqueueScripts']);
   }
 
   /**
@@ -413,8 +413,32 @@ class SettingsAPI {
     $id    = $args['section'] . '[' . $args['id'] . ']';
     $label = (isset($args['options']['button_label']) === true) ? $args['options']['button_label'] : __('Choose File');
 
-    $html = sprintf('<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $id, $value);
+    $html = sprintf('<input type="text" class="%1$s-text wpsa-url" id="%2$s" name="%2$s" value="%3$s"/>', $size, $id, $value);
     $html .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
+    $html .= $this->getFieldDescription($args);
+
+    echo $html;
+  }
+
+  /**
+   * Displays an image upload field with a preview
+   *
+   * @param array $args Settings field args.
+   *
+   * @return void
+   */
+  public function callbackImage(array $args): void {
+    $value  = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
+    $size   = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
+    $id     = $args['section'] . '[' . $args['id'] . ']';
+    $label  = (isset($args['options']['button_label']) === true) ? $args['options']['button_label'] : __('Choose Image');
+    $img    = wp_get_attachment_image_src($value);
+    $imgUrl = ($img !== false) ? $img[0] : '';
+
+    $html = sprintf('<input type="hidden" class="%1$s-text wpsa-image-id" id="%2$s" name="%2$s" value="%3$s"/>', $size, $id, $value);
+    $html .= '<p class="wpsa-image-preview"><img style="max-width:300px" src="' . $imgUrl . '" /></p>';
+    $html .= '<input type="button" class="button wpsa-image-browse" value="' . $label . '" />';
+    $html .= '<input type="button" class="button wpsa-image-clear" value="' . _x('Remove featured image', 'page') . '" />';
     $html .= $this->getFieldDescription($args);
 
     echo $html;
@@ -605,11 +629,11 @@ class SettingsAPI {
    * Tabbable JavaScript codes & Initiate Color Picker
    * This code uses localstorage for displaying active tabs
    *
+   * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    * @return void
    */
   public function script(): void {
     ?>
-    <!--suppress ES6ConvertVarToLetConst -->
     <script>
       jQuery(document).ready(function($) {
         //Initiate Color Picker
@@ -675,15 +699,42 @@ class SettingsAPI {
               text: self.data('uploader_button_text')
             },
             multiple: false
-          });
-
-          file_frame.on('select', function() {
+          }).on('select', function() {
             var attachment = file_frame.state().get('selection').first().toJSON();
             self.prev('.wpsa-url').val(attachment.url).change();
-          });
+          }).open();
+        });
+        $('.wpsa-image-browse').on('click', function(event) {
+          event.preventDefault();
+          var self = $(this);
 
-          // Finally, open the modal
-          file_frame.open();
+          // Create the media frame.
+          var file_frame = wp.media.frames.file_frame =
+            wp.media({
+              title: self.data('uploader_title'),
+              button: {
+                text: self.data('uploader_button_text'),
+              },
+              multiple: false,
+              library: {type: 'image'}
+            }).on('select', function() {
+              var attachment = file_frame.state().get('selection').first().toJSON();
+              var url;
+              if (attachment.sizes && attachment.sizes.thumbnail) {
+                url = attachment.sizes.thumbnail.url;
+              } else {
+                url = attachment.url;
+              }
+              self.parent().children('.wpsa-image-id').val(attachment.id).change();
+              self.parent().children('.wpsa-image-preview').children('img').attr('src', url);
+            }).open();
+        });
+        $('.wpsa-image-clear').on('click', function(event) {
+          event.preventDefault();
+          var self = $(this);
+
+          self.parent().children('.wpsa-image-id').val('').change();
+          self.parent().children('.wpsa-image-preview').children('img').attr('src', '');
         });
       });
     </script>
