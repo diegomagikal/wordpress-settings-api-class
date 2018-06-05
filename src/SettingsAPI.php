@@ -126,7 +126,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function adminInit(): void {
+  public function adminInit() {
     //register settings sections
     foreach ($this->settingsSections as $section) {
       if (array_key_exists('id', $section) === false || get_option($section['id'], false) === false) {
@@ -207,7 +207,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackText(array $args): void {
+  public function callbackText(array $args) {
     $value       = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $type        = (isset($args['type']) === true) ? $args['type'] : 'text';
@@ -226,7 +226,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackUrl(array $args): void {
+  public function callbackUrl(array $args) {
     $this->callbackText($args);
   }
 
@@ -237,7 +237,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackNumber(array $args): void {
+  public function callbackNumber(array $args) {
     $value       = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $type        = (isset($args['type']) === true) ? $args['type'] : 'number';
@@ -259,7 +259,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackCheckbox(array $args): void {
+  public function callbackCheckbox(array $args) {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
 
     $html = '<fieldset>';
@@ -279,7 +279,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackMulticheck(array $args): void {
+  public function callbackMulticheck(array $args) {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $html  = '<fieldset>';
     $html  .= sprintf('<input type="hidden" name="%1$s[%2$s]" value="" />', $args['section'], $args['id']);
@@ -303,7 +303,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackRadio(array $args): void {
+  public function callbackRadio(array $args) {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $html  = '<fieldset>';
 
@@ -326,7 +326,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackSelect(array $args): void {
+  public function callbackSelect(array $args) {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $html  = sprintf('<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">', $size, $args['section'], $args['id']);
@@ -348,7 +348,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackTextarea(array $args): void {
+  public function callbackTextarea(array $args) {
     $value       = esc_textarea($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $placeholder = (empty($args['placeholder']) === true) ? '' : ' placeholder="' . $args['placeholder'] . '"';
@@ -366,7 +366,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackHtml(array $args): void {
+  public function callbackHtml(array $args) {
     echo $this->getFieldDescription($args);
   }
 
@@ -377,7 +377,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackWysiwyg(array $args): void {
+  public function callbackWysiwyg(array $args) {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : '500px';
 
@@ -407,7 +407,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackFile(array $args): void {
+  public function callbackFile(array $args) {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $id    = $args['section'] . '[' . $args['id'] . ']';
@@ -427,7 +427,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackImage(array $args): void {
+  public function callbackImage(array $args) {
     $value  = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size   = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $id     = $args['section'] . '[' . $args['id'] . ']';
@@ -451,7 +451,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackPassword(array $args): void {
+  public function callbackPassword(array $args) {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
 
@@ -468,7 +468,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackColor(array $args): void {
+  public function callbackColor(array $args) {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
 
@@ -485,7 +485,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackPages(array $args): void {
+  public function callbackPages(array $args) {
     $dropdownArgs = [
       'selected' => esc_attr($this->getOption($args['id'], $args['section'], $args['std'])),
       'name'     => $args['section'] . '[' . $args['id'] . ']',
@@ -572,7 +572,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function showNavigation(): void {
+  public function showNavigation() {
     $html = '<h2 class="nav-tab-wrapper">';
 
     $count = count($this->settingsSections);
@@ -598,7 +598,7 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function showForms(): void {
+  public function showForms() {
     ?>
     <div class="metabox-holder">
       <?php foreach ($this->settingsSections as $form) { ?>
@@ -632,7 +632,7 @@ class SettingsAPI {
    * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
    * @return void
    */
-  public function script(): void {
+  public function script() {
     ?>
     <script>
       jQuery(document).ready(function($) {
