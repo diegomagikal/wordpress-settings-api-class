@@ -184,20 +184,14 @@ class SettingsAPI {
   }
 
   /**
-   * Get field description for display
+   * Displays a url field for a settings field
    *
    * @param array $args Settings field args.
    *
-   * @return string
+   * @return void
    */
-  public function getFieldDescription(array $args): string {
-    if (empty($args['desc']) === false) {
-      $desc = sprintf('<p class="description">%s</p>', $args['desc']);
-    } else {
-      $desc = '';
-    }
-
-    return $desc;
+  public function callbackUrl(array $args) {
+    $this->callbackText($args);
   }
 
   /**
@@ -220,14 +214,39 @@ class SettingsAPI {
   }
 
   /**
-   * Displays a url field for a settings field
+   * Get the value of a settings field
+   *
+   * @param string $option  Settings field name.
+   * @param string $section The section name this field belongs to.
+   * @param mixed  $default Default value if it's not found.
+   *
+   * @return mixed
+   */
+  public function getOption(string $option, string $section, $default = false) {
+    $options = get_option($section);
+
+    if (isset($options[$option]) === true) {
+      return $options[$option];
+    }
+
+    return $default;
+  }
+
+  /**
+   * Get field description for display
    *
    * @param array $args Settings field args.
    *
-   * @return void
+   * @return string
    */
-  public function callbackUrl(array $args) {
-    $this->callbackText($args);
+  public function getFieldDescription(array $args): string {
+    if (empty($args['desc']) === false) {
+      $desc = sprintf('<p class="description">%s</p>', $args['desc']);
+    } else {
+      $desc = '';
+    }
+
+    return $desc;
   }
 
   /**
@@ -548,25 +567,6 @@ class SettingsAPI {
   }
 
   /**
-   * Get the value of a settings field
-   *
-   * @param string $option  Settings field name.
-   * @param string $section The section name this field belongs to.
-   * @param mixed  $default Default value if it's not found.
-   *
-   * @return mixed
-   */
-  public function getOption(string $option, string $section, $default = false) {
-    $options = get_option($section);
-
-    if (isset($options[$option]) === true) {
-      return $options[$option];
-    }
-
-    return $default;
-  }
-
-  /**
    * Show navigations as tab
    * Shows all the settings section labels as tab
    *
@@ -713,7 +713,7 @@ class SettingsAPI {
             wp.media({
               title: self.data('uploader_title'),
               button: {
-                text: self.data('uploader_button_text'),
+                text: self.data('uploader_button_text')
               },
               multiple: false,
               library: {type: 'image'}
