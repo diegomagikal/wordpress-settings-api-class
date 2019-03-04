@@ -265,7 +265,7 @@ class SettingsAPI {
     $html = '<fieldset>';
     $html .= sprintf('<label for="wpuf-%1$s[%2$s]">', $args['section'], $args['id']);
     $html .= sprintf('<input type="hidden" name="%1$s[%2$s]" value="off" />', $args['section'], $args['id']);
-    $html .= sprintf('<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="on" %3$s />', $args['section'], $args['id'], checked($value, 'on', false));
+    $html .= sprintf('<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s]" name="%1$s[%2$s]" value="1" %3$s />', $args['section'], $args['id'], checked($value, '1', false));
     $html .= sprintf('%1$s</label>', $args['desc']);
     $html .= '</fieldset>';
 
