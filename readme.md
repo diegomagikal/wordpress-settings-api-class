@@ -11,7 +11,7 @@ To install this package, edit your `composer.json` file:
 ```js
 {
     "require": {
-        "tareq1988/wordpress-settings-api-class": "dev-master"
+        "diegomagikal/wordpress-settings-api-class": "dev-master"
     }
 }
 ```
@@ -23,7 +23,7 @@ Now run:
 Usage Example
 ---------------
 
-Checkout the [examples](https://github.com/tareq1988/wordpress-settings-api-class/tree/master/example) folder for OOP and procedural example. They were called in [plugin.php](https://github.com/tareq1988/wordpress-settings-api-class/blob/master/plugin.php) file.
+Checkout the [examples](https://github.com/diegomagikal/wordpress-settings-api-class/tree/master/example) folder for OOP and procedural example. They were called in [plugin.php](https://github.com/diegomagikal/wordpress-settings-api-class/blob/master/plugin.php) file.
 
 A detailed tutorial can be found [here](https://tareq.co/2012/06/wordpress-settings-api-php-class/).
 
@@ -54,7 +54,7 @@ function prefix_get_option( $option, $section, $default = '' ) {
 Screenshot
 ----------------------
 
-![Option Panel](https://github.com/tareq1988/wordpress-settings-api-class/raw/master/screenshot-1.png "The options panel build on the fly using the PHP Class")
+![Option Panel](https://github.com/diegomagikal/wordpress-settings-api-class/raw/master/screenshot-1.png "The options panel build on the fly using the PHP Class")
 
 
 
