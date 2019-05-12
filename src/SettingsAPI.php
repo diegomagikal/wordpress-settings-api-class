@@ -1,16 +1,18 @@
 <?php
 
-namespace TwinDigital;
+namespace DiegoMagikal;
 
 /**
- * TwinDigital Settings API wrapper class
+ * DiegoMagikal Settings API wrapper class
  *
  * @version 1.3 (27-Sep-2016)
  *
  * @author  Tareq Hasan <tareq@weDevs.com>
  * @author  Lucien Plattel <lucien@twindigital.nl>
+ * @author  Diego Luiz <magikaldesign@gmail.com>
  * @link    https://tareq.co Tareq Hasan
  * @link    https://twindigital.nl Lucien Plattel
+ * @link    https://magikal.com Diego Luiz
  * @example example/oop-example.php How to use the class
  */
 
@@ -57,7 +59,7 @@ class SettingsAPI {
    *
    * @param array $sections Setting sections array.
    *
-   * @return \TwinDigital\SettingsAPI
+   * @return \DiegoMagikal\SettingsAPI
    */
   public function setSections(array $sections) {
     $this->settingsSections = $sections;
@@ -70,7 +72,7 @@ class SettingsAPI {
    *
    * @param array $section Array with section settings.
    *
-   * @return \TwinDigital\SettingsAPI
+   * @return \DiegoMagikal\SettingsAPI
    */
   public function addSection(array $section): self {
     $this->settingsSections[] = $section;
@@ -83,7 +85,7 @@ class SettingsAPI {
    *
    * @param array $fields Settings fields array.
    *
-   * @return \TwinDigital\SettingsAPI
+   * @return \DiegoMagikal\SettingsAPI
    */
   public function setFields(array $fields): self {
     $this->settingsFields = $fields;
@@ -97,7 +99,7 @@ class SettingsAPI {
    * @param string $section Name of the section.
    * @param array  $field   The field-settings.
    *
-   * @return \TwinDigital\SettingsAPI
+   * @return \DiegoMagikal\SettingsAPI
    */
   public function addField(string $section, array $field): self {
     $defaults = [

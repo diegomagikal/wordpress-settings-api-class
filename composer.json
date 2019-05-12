@@ -1,11 +1,17 @@
 {
-    "name": "twindigital/wordpress-settings-api-class",
+    "name": "diegomagikal/wordpress-settings-api-class",
     "type": "library",
     "description": "WordPress settings API Abstraction Class",
     "keywords": ["wp","wordpress", "settings-api"],
-    "homepage": "https://github.com/TwinDigital/wordpress-settings-api-class",
+    "homepage": "https://github.com/diegomagikal/wordpress-settings-api-class",
     "license": "GPL-2.0-or-later",
     "authors": [
+        {
+            "name": "Diego Luiz",
+            "email": "magikaldesign@gmail.com",
+            "homepage": "https://www.magikal.com",
+            "role": "Developer"
+        },
         {
             "name": "Lucien Plattel",
             "email": "lucien@twindigital.nl",
@@ -24,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TwinDigital\\": "src/"
+            "diegomagikal\\": "src/"
         }
     }
 }
