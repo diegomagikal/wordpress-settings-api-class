@@ -19,7 +19,8 @@ namespace DiegoMagikal;
 /**
  * Class SettingsAPI
  */
-class SettingsAPI {
+class SettingsAPI
+{
 
   /**
    * Settings sections array.
@@ -38,7 +39,8 @@ class SettingsAPI {
   /**
    * SettingsAPI constructor.
    */
-  public function __construct() {
+  public function __construct()
+  {
     add_action('admin_enqueue_scripts', [$this, 'adminEnqueueScripts']);
   }
 
@@ -46,7 +48,8 @@ class SettingsAPI {
    * Enqueue scripts and styles
    * @return void
    */
-  public function adminEnqueueScripts() {
+  public function adminEnqueueScripts()
+  {
     wp_enqueue_style('wp-color-picker');
 
     wp_enqueue_media();
@@ -61,11 +64,25 @@ class SettingsAPI {
    *
    * @return \DiegoMagikal\SettingsAPI
    */
-  public function setSections(array $sections) {
+  public function setSections(array $sections)
+  {
     $this->settingsSections = $sections;
 
     return $this;
   }
+
+  
+  /**
+   * Get settings sections.
+   *
+   * @return array
+   */
+  public function getSections()
+  {
+    return $this->settingsSections;
+  }
+
+
 
   /**
    * Add a single section
@@ -74,7 +91,8 @@ class SettingsAPI {
    *
    * @return \DiegoMagikal\SettingsAPI
    */
-  public function addSection(array $section): self {
+  public function addSection(array $section): self
+  {
     $this->settingsSections[] = $section;
 
     return $this;
@@ -87,7 +105,8 @@ class SettingsAPI {
    *
    * @return \DiegoMagikal\SettingsAPI
    */
-  public function setFields(array $fields): self {
+  public function setFields(array $fields): self
+  {
     $this->settingsFields = $fields;
 
     return $this;
@@ -101,7 +120,8 @@ class SettingsAPI {
    *
    * @return \DiegoMagikal\SettingsAPI
    */
-  public function addField(string $section, array $field): self {
+  public function addField(string $section, array $field): self
+  {
     $defaults = [
       'name'  => '',
       'label' => '',
@@ -128,7 +148,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function adminInit() {
+  public function adminInit()
+  { 
     //register settings sections
     foreach ($this->settingsSections as $section) {
       if (array_key_exists('id', $section) === false || get_option($section['id'], false) === false) {
@@ -192,7 +213,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackUrl(array $args) {
+  public function callbackUrl(array $args)
+  {
     $this->callbackText($args);
   }
 
@@ -203,7 +225,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackText(array $args) {
+  public function callbackText(array $args)
+  {
     $value       = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $type        = (isset($args['type']) === true) ? $args['type'] : 'text';
@@ -224,7 +247,8 @@ class SettingsAPI {
    *
    * @return mixed
    */
-  public function getOption(string $option, string $section, $default = false) {
+  public function getOption(string $option, string $section, $default = false)
+  {
     $options = get_option($section);
 
     if (isset($options[$option]) === true) {
@@ -241,7 +265,8 @@ class SettingsAPI {
    *
    * @return string
    */
-  public function getFieldDescription(array $args): string {
+  public function getFieldDescription(array $args): string
+  {
     if (empty($args['desc']) === false) {
       $desc = sprintf('<p class="description">%s</p>', $args['desc']);
     } else {
@@ -258,7 +283,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackNumber(array $args) {
+  public function callbackNumber(array $args)
+  {
     $value       = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $type        = (isset($args['type']) === true) ? $args['type'] : 'number';
@@ -280,7 +306,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackCheckbox(array $args) {
+  public function callbackCheckbox(array $args)
+  {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
 
     $html = '<fieldset>';
@@ -300,7 +327,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackMulticheck(array $args) {
+  public function callbackMulticheck(array $args)
+  {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $html  = '<fieldset>';
     $html  .= sprintf('<input type="hidden" name="%1$s[%2$s]" value="" />', $args['section'], $args['id']);
@@ -324,7 +352,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackRadio(array $args) {
+  public function callbackRadio(array $args)
+  {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $html  = '<fieldset>';
 
@@ -347,7 +376,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackSelect(array $args) {
+  public function callbackSelect(array $args)
+  {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $html  = sprintf('<select class="%1$s" name="%2$s[%3$s]" id="%2$s[%3$s]">', $size, $args['section'], $args['id']);
@@ -369,7 +399,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackTextarea(array $args) {
+  public function callbackTextarea(array $args)
+  {
     $value       = esc_textarea($this->getOption($args['id'], $args['section'], $args['std']));
     $size        = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $placeholder = (empty($args['placeholder']) === true) ? '' : ' placeholder="' . $args['placeholder'] . '"';
@@ -387,7 +418,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackHtml(array $args) {
+  public function callbackHtml(array $args)
+  {
     echo $this->getFieldDescription($args);
   }
 
@@ -398,7 +430,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackWysiwyg(array $args) {
+  public function callbackWysiwyg(array $args)
+  {
     $value = $this->getOption($args['id'], $args['section'], $args['std']);
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : '500px';
 
@@ -428,7 +461,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackFile(array $args) {
+  public function callbackFile(array $args)
+  {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $id    = $args['section'] . '[' . $args['id'] . ']';
@@ -448,7 +482,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackImage(array $args) {
+  public function callbackImage(array $args)
+  {
     $value  = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size   = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
     $id     = $args['section'] . '[' . $args['id'] . ']';
@@ -472,7 +507,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackPassword(array $args) {
+  public function callbackPassword(array $args)
+  {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
 
@@ -489,7 +525,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackColor(array $args) {
+  public function callbackColor(array $args)
+  {
     $value = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
     $size  = (isset($args['size']) === true && $args['size'] !== null) ? $args['size'] : 'regular';
 
@@ -506,7 +543,8 @@ class SettingsAPI {
    *
    * @return void
    */
-  public function callbackPages(array $args) {
+  public function callbackPages(array $args)
+  {
     $dropdownArgs = [
       'selected' => esc_attr($this->getOption($args['id'], $args['section'], $args['std'])),
       'name'     => $args['section'] . '[' . $args['id'] . ']',
@@ -518,228 +556,300 @@ class SettingsAPI {
   }
 
   /**
-   * Sanitize callback for Settings API
+   * Displays a visual divisor element.
    *
-   * @param mixed $options The options.
+   * @param array $args Settings field args.
    *
-   * @return mixed
+   * @return void
    */
-  public function sanitizeOptions($options) {
-    if (is_array($options) === false) {
-      return $options;
-    }
-    foreach ($options as $optionSlug => $optionValue) {
-      $sanitizeCallback = $this->getSanitizeCallback($optionSlug);
-
-      // If callback is set, call it
-      if ($sanitizeCallback !== false) {
-        $options[$optionSlug] = call_user_func($sanitizeCallback, $optionValue);
-        continue;
-      }
-    }
-
-    return $options;
+  function callbackDivisor($args)
+  {
+    echo "<hr>";
   }
 
-  /**
-   * Get sanitization callback for given option slug
-   *
-   * @param string $slug Option slug.
-   *
-   * @return mixed string or bool false
-   */
-  public function getSanitizeCallback(string $slug = '') {
-    if (empty($slug) === true) {
-      return false;
+  /* 
+		o arg 'size' serve como limit.
+    	passar array com id e nome.
+		*/
+  function callbackReorder($args)
+  {
+
+    $layout                = isset($args['layout']) ? $args['layout'] : 'vertical';
+    $valor                 = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
+    $css_display           = $layout == 'vertical' ? 'block' : 'inline';
+    $fields_order_default  = $args['options'];
+
+    if (!empty($valor)) {
+      $ordem_gravada = explode(",", $valor);
+
+      //ordena uma array baseada em outra
+      uksort($fields_order_default, function ($key1, $key2) use ($ordem_gravada) {
+        return (array_search($key1, $ordem_gravada) > array_search($key2, $ordem_gravada));
+      });
     }
 
-    // Iterate over registered fields and see if we can find proper callback
-    foreach ($this->settingsFields as $options) {
-      foreach ($options as $option) {
-        if ($option['name'] !== $slug) {
-          continue;
-        }
+    ?>
 
-        // Return the callback name
-        return (isset($option['sanitize_callback']) === true && is_callable($option['sanitize_callback']) === true) ? $option['sanitize_callback'] : false;
-      }
+      <div class="admin-module itens_reorder <?php echo $layout; ?>">
+
+        <label><?php echo $args['desc']; ?></label>
+
+        <?php
+        $filter_fields_order = esc_attr($this->getOption($args['id'], $args['section'], $args['std']));
+
+        $imploded  = $filter_fields_order;
+        $items = is_array($filter_fields_order) ? $filter_fields_order : $fields_order_default;
+        ?>
+
+        <ul class="filter-fields-list">
+          <input type='hidden' id='<?php echo $args['section']; ?>[<?php echo $args['id'] ?>]' value='<?php echo $imploded; ?>' name='<?php echo $args['section']; ?>[<?php echo $args['id'] ?>]' class='resultado_reorder' id='resultado_reorder' />
+          <?php
+          $pilha = 1;
+          foreach ($items as $id => $nome) {
+            if (isset($args['size']) && $i > $args['size']) continue; ?>
+            <li class="sortable-item " style='display: <?php echo $css_display; ?>; margin-right: 3px;  background-color: #e5e5e5; width: 250px; overflow: hidden; padding: 7px; height: 36px'>
+              <!-- display: inline-block; -->
+              <?php echo $nome; ?>
+              <input type="hidden" name="<?php echo $id; ?>" value="<?php echo $pilha; ?>" />
+            </li>
+            <?php $pilha++;
+          } ?>
+        </ul>
+      </div>
+
+<?php
+}
+
+/**
+ * Sanitize callback for Settings API
+ *
+ * @param mixed $options The options.
+ *
+ * @return mixed
+ */
+public function sanitizeOptions($options)
+{
+  if (is_array($options) === false) {
+    return $options;
+  }
+  foreach ($options as $optionSlug => $optionValue) {
+    $sanitizeCallback = $this->getSanitizeCallback($optionSlug);
+
+    // If callback is set, call it
+    if ($sanitizeCallback !== false) {
+      $options[$optionSlug] = call_user_func($sanitizeCallback, $optionValue);
+      continue;
     }
+  }
 
+  return $options;
+}
+
+/**
+ * Get sanitization callback for given option slug
+ *
+ * @param string $slug Option slug.
+ *
+ * @return mixed string or bool false
+ */
+public function getSanitizeCallback(string $slug = '')
+{
+  if (empty($slug) === true) {
     return false;
   }
 
-  /**
-   * Show navigations as tab
-   * Shows all the settings section labels as tab
-   *
-   * @return void
-   */
-  public function showNavigation() {
-    $html = '<h2 class="nav-tab-wrapper">';
+  // Iterate over registered fields and see if we can find proper callback
+  foreach ($this->settingsFields as $options) {
+    foreach ($options as $option) {
+      if ($option['name'] !== $slug) {
+        continue;
+      }
 
-    $count = count($this->settingsSections);
-
-    // don't show the navigation if only one section exists
-    if ($count === 1) {
-      return;
+      // Return the callback name
+      return (isset($option['sanitize_callback']) === true && is_callable($option['sanitize_callback']) === true) ? $option['sanitize_callback'] : false;
     }
-
-    foreach ($this->settingsSections as $tab) {
-      $html .= sprintf('<a href="#%1$s" class="nav-tab" id="%1$s-tab">%2$s</a>', $tab['id'], $tab['title']);
-    }
-
-    $html .= '</h2>';
-
-    echo $html;
   }
 
-  /**
-   * Show the section settings forms
-   *
-   * This function displays every sections in a different form
-   *
-   * @return void
-   */
-  public function showForms() {
-    ?>
-    <div class="metabox-holder">
-      <?php foreach ($this->settingsSections as $form) { ?>
-        <div id="<?php echo $form['id']; ?>" class="group" style="display: none;">
-          <form method="post" action="options.php">
-            <?php
-            do_action('wsa_form_top_' . $form['id'], $form);
-            settings_fields($form['id']);
-            do_settings_sections($form['id']);
-            do_action('wsa_form_bottom_' . $form['id'], $form);
-            if (isset($this->settingsFields[$form['id']]) === true) {
-              ?>
-              <div style="padding-left: 10px">
-                <?php submit_button(); ?>
-              </div>
-              <?php
-            }
+  return false;
+}
+
+/**
+ * Show navigations as tab
+ * Shows all the settings section labels as tab
+ *
+ * @return void
+ */
+public function showNavigation()
+{
+  $html = '<h2 class="nav-tab-wrapper">';
+
+  $count = count($this->settingsSections);
+
+  // don't show the navigation if only one section exists
+  if ($count === 1) {
+    return;
+  }
+
+  foreach ($this->settingsSections as $tab) {
+    $html .= sprintf('<a href="#%1$s" class="nav-tab" id="%1$s-tab">%2$s</a>', $tab['id'], $tab['title']);
+  }
+
+  $html .= '</h2>';
+
+  echo $html;
+}
+
+/**
+ * Show the section settings forms
+ *
+ * This function displays every sections in a different form
+ *
+ * @return void
+ */
+public function showForms()
+{
+  ?>
+  <div class="metabox-holder">
+    <?php foreach ($this->settingsSections as $form) { ?>
+      <div id="<?php echo $form['id']; ?>" class="group" style="display: none;">
+        <form method="post" action="options.php">
+          <?php
+          do_action('wsa_form_top_' . $form['id'], $form);
+          settings_fields($form['id']);
+          do_settings_sections($form['id']);
+          do_action('wsa_form_bottom_' . $form['id'], $form);
+          if (isset($this->settingsFields[$form['id']]) === true) {
             ?>
-          </form>
-        </div>
-      <?php } ?>
-    </div>
-    <?php
-    $this->script();
-  }
+            <div style="padding-left: 10px">
+              <?php submit_button(); ?>
+            </div>
+          <?php
+        }
+        ?>
+        </form>
+      </div>
+    <?php } ?>
+  </div>
+  <?php
+  $this->script();
+}
 
-  /**
-   * Tabbable JavaScript codes & Initiate Color Picker
-   * This code uses localstorage for displaying active tabs
-   *
-   * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-   * @return void
-   */
-  public function script() {
-    ?>
-    <script>
-      jQuery(document).ready(function($) {
-        //Initiate Color Picker
-        $('.wp-color-picker-field').wpColorPicker();
+/**
+ * Tabbable JavaScript codes & Initiate Color Picker
+ * This code uses localstorage for displaying active tabs
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ * @return void
+ */
+public function script()
+{
+  ?>
+  <script>
+    jQuery(document).ready(function($) {
+      //Initiate Color Picker
+      $('.wp-color-picker-field').wpColorPicker();
 
-        // Switches option sections
-        $('.group').hide();
-        var activetab = '';
+      // Switches option sections
+      $('.group').hide();
+      var activetab = '';
+      if (typeof localStorage !== 'undefined') {
+        activetab = localStorage.getItem("activetab");
+      }
+
+      //if url has section id as hash then set it as active or override the current local storage value
+      if (window.location.hash) {
+        activetab = window.location.hash;
         if (typeof localStorage !== 'undefined') {
-          activetab = localStorage.getItem("activetab");
+          localStorage.setItem("activetab", activetab);
         }
+      }
 
-        //if url has section id as hash then set it as active or override the current local storage value
-        if (window.location.hash) {
-          activetab = window.location.hash;
-          if (typeof localStorage !== 'undefined') {
-            localStorage.setItem("activetab", activetab);
-          }
+      if (activetab !== '' && $(activetab).length) {
+        $(activetab).fadeIn();
+      } else {
+        $('.group:first').fadeIn();
+      }
+      $('.group .collapsed').each(function() {
+        $(this).find('input:checked').parent().parent().parent().nextAll().each(
+          function() {
+            if ($(this).hasClass('last')) {
+              $(this).removeClass('hidden');
+              return false;
+            }
+            $(this).filter('.hidden').removeClass('hidden');
+          });
+      });
+
+      if (activetab !== '' && $(activetab + '-tab').length) {
+        $(activetab + '-tab').addClass('nav-tab-active');
+      } else {
+        $('.nav-tab-wrapper a:first').addClass('nav-tab-active');
+      }
+      $('.nav-tab-wrapper a').on('click', function(evt) {
+        $('.nav-tab-wrapper a').removeClass('nav-tab-active');
+        $(this).addClass('nav-tab-active').blur();
+        var clicked_group = $(this).attr('href');
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem("activetab", $(this).attr('href'));
         }
+        $('.group').hide();
+        $(clicked_group).fadeIn();
+        evt.preventDefault();
+      });
 
-        if (activetab !== '' && $(activetab).length) {
-          $(activetab).fadeIn();
-        } else {
-          $('.group:first').fadeIn();
-        }
-        $('.group .collapsed').each(function() {
-          $(this).find('input:checked').parent().parent().parent().nextAll().each(
-            function() {
-              if ($(this).hasClass('last')) {
-                $(this).removeClass('hidden');
-                return false;
-              }
-              $(this).filter('.hidden').removeClass('hidden');
-            });
-        });
+      $('.wpsa-browse').on('click', function(event) {
+        event.preventDefault();
 
-        if (activetab !== '' && $(activetab + '-tab').length) {
-          $(activetab + '-tab').addClass('nav-tab-active');
-        } else {
-          $('.nav-tab-wrapper a:first').addClass('nav-tab-active');
-        }
-        $('.nav-tab-wrapper a').on('click', function(evt) {
-          $('.nav-tab-wrapper a').removeClass('nav-tab-active');
-          $(this).addClass('nav-tab-active').blur();
-          var clicked_group = $(this).attr('href');
-          if (typeof localStorage !== 'undefined') {
-            localStorage.setItem("activetab", $(this).attr('href'));
-          }
-          $('.group').hide();
-          $(clicked_group).fadeIn();
-          evt.preventDefault();
-        });
+        var self = $(this);
 
-        $('.wpsa-browse').on('click', function(event) {
-          event.preventDefault();
+        // Create the media frame.
+        var file_frame = wp.media.frames.file_frame = wp.media({
+          title: self.data('uploader_title'),
+          button: {
+            text: self.data('uploader_button_text')
+          },
+          multiple: false
+        }).on('select', function() {
+          var attachment = file_frame.state().get('selection').first().toJSON();
+          self.prev('.wpsa-url').val(attachment.url).change();
+        }).open();
+      });
+      $('.wpsa-image-browse').on('click', function(event) {
+        event.preventDefault();
+        var self = $(this);
 
-          var self = $(this);
-
-          // Create the media frame.
-          var file_frame = wp.media.frames.file_frame = wp.media({
+        // Create the media frame.
+        var file_frame = wp.media.frames.file_frame =
+          wp.media({
             title: self.data('uploader_title'),
             button: {
               text: self.data('uploader_button_text')
             },
-            multiple: false
+            multiple: false,
+            library: {
+              type: 'image'
+            }
           }).on('select', function() {
             var attachment = file_frame.state().get('selection').first().toJSON();
-            self.prev('.wpsa-url').val(attachment.url).change();
+            var url;
+            if (attachment.sizes && attachment.sizes.thumbnail) {
+              url = attachment.sizes.thumbnail.url;
+            } else {
+              url = attachment.url;
+            }
+            self.parent().children('.wpsa-image-id').val(attachment.id).change();
+            self.parent().children('.wpsa-image-preview').children('img').attr('src', url);
           }).open();
-        });
-        $('.wpsa-image-browse').on('click', function(event) {
-          event.preventDefault();
-          var self = $(this);
-
-          // Create the media frame.
-          var file_frame = wp.media.frames.file_frame =
-            wp.media({
-              title: self.data('uploader_title'),
-              button: {
-                text: self.data('uploader_button_text')
-              },
-              multiple: false,
-              library: {type: 'image'}
-            }).on('select', function() {
-              var attachment = file_frame.state().get('selection').first().toJSON();
-              var url;
-              if (attachment.sizes && attachment.sizes.thumbnail) {
-                url = attachment.sizes.thumbnail.url;
-              } else {
-                url = attachment.url;
-              }
-              self.parent().children('.wpsa-image-id').val(attachment.id).change();
-              self.parent().children('.wpsa-image-preview').children('img').attr('src', url);
-            }).open();
-        });
-        $('.wpsa-image-clear').on('click', function(event) {
-          event.preventDefault();
-          var self = $(this);
-
-          self.parent().children('.wpsa-image-id').val('').change();
-          self.parent().children('.wpsa-image-preview').children('img').attr('src', '');
-        });
       });
-    </script>
-    <?php
-  }
+      $('.wpsa-image-clear').on('click', function(event) {
+        event.preventDefault();
+        var self = $(this);
+
+        self.parent().children('.wpsa-image-id').val('').change();
+        self.parent().children('.wpsa-image-preview').children('img').attr('src', '');
+      });
+    });
+  </script>
+<?php
+}
 }
