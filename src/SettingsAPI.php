@@ -52,7 +52,7 @@ class SettingsAPI
   {
     wp_enqueue_style('wp-color-picker');
 
-    wp_enqueue_media();
+    //wp_enqueue_media(); //it generates an error with featured image picker
     wp_enqueue_script('wp-color-picker');
     wp_enqueue_script('jquery');
   }
